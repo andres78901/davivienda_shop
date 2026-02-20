@@ -1,6 +1,7 @@
 /**
  * Store del carrito con Zustand.
  * Lógica de negocio: agregar, eliminar, incrementar/decrementar cantidad y total.
+ * Los datos se persisten por usuario en la base de datos local (cartStorage).
  */
 
 import { create } from 'zustand';
@@ -10,6 +11,7 @@ import { cartItemSubtotal } from '../types/cart';
 
 export interface CartState {
   items: CartItem[];
+  setItems: (items: CartItem[]) => void;
   addProduct: (product: Product, quantity?: number) => void;
   removeProduct: (productId: number) => void;
   incrementQuantity: (productId: number) => void;
@@ -20,6 +22,8 @@ export interface CartState {
 
 export const useCartStore = create<CartState>((set, get) => ({
   items: [],
+
+  setItems: (items: CartItem[]) => set({ items }),
 
   addProduct: (product: Product, quantity = 1) => {
     set((state) => {
@@ -78,5 +82,5 @@ export const useCartStore = create<CartState>((set, get) => ({
 
   getItemCount: () => {
     return get().items.reduce((sum, item) => sum + item.quantity, 0);
-  },
+  }
 }));

@@ -23,7 +23,7 @@ export const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#0066cc',
+    color: '#EF210B',
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderBottomWidth: 1,

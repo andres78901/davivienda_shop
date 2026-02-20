@@ -20,7 +20,7 @@ export const styles = StyleSheet.create({
     marginTop: 16,
     paddingHorizontal: 24,
     paddingVertical: 12,
-    backgroundColor: '#0066cc',
+    backgroundColor: '#EF210B',
     borderRadius: 8,
   },
   retryButtonText: {

@@ -50,7 +50,7 @@ export const styles = StyleSheet.create({
     width: 32,
     height: 32,
     borderRadius: 16,
-    backgroundColor: '#0066cc',
+    backgroundColor: '#EF210B',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -94,7 +94,7 @@ export const styles = StyleSheet.create({
   totalValue: {
     fontSize: 22,
     fontWeight: '800',
-    color: '#0066cc',
+    color: '#EF210B',
   },
   empty: {
     flex: 1,

@@ -18,7 +18,7 @@ export function ProductDetailScreen({ route }: Props) {
 
   const handleAddToCart = () => {
     addProduct(product, 1);
-    showToast('El bridge funciona');
+    showToast('Agregado al carrito');
   };
 
   return (

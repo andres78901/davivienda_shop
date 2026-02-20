@@ -61,7 +61,7 @@ export function LoginScreen({ navigation }: Props) {
       <View style={styles.form}>
         <Text style={styles.title}>Iniciar sesión</Text>
         <Text style={styles.hint}>
-          Usa usuarios de DummyJSON (ej: emilys / emilyspass)
+          Usa el usuario y contraseña de DummyJSON (ej: emilys / emilyspass)
         </Text>
         {error ? <Text style={styles.errorText}>{error}</Text> : null}
         <TextInput

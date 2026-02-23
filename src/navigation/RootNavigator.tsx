@@ -11,6 +11,7 @@ import type { RootState } from '../store';
 import { AuthNavigator } from './AuthNavigator';
 import { AppNavigator } from './AppNavigator';
 import { styles } from './style/RootNavigator.styles';
+import { primary } from '../theme/colors';
 
 export function RootNavigator() {
   const dispatch = useDispatch();
@@ -39,7 +40,7 @@ export function RootNavigator() {
   if (isRestoring) {
     return (
       <View style={styles.loading}>
-        <ActivityIndicator size="large" color="#0066cc" />
+        <ActivityIndicator size="large" color={primary} />
       </View>
     );
   }

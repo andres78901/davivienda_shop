@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { primary } from '../../theme/colors';
 
 export const styles = StyleSheet.create({
   center: {
@@ -20,7 +21,7 @@ export const styles = StyleSheet.create({
     marginTop: 16,
     paddingHorizontal: 24,
     paddingVertical: 12,
-    backgroundColor: '#EF210B',
+    backgroundColor: primary,
     borderRadius: 8,
   },
   retryButtonText: {

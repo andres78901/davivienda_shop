@@ -1,13 +1,27 @@
 /**
- * Colores maestros de la app.
- * Única fuente de verdad para estilos de header y marca.
+ * Tema de colores de la app.
+ * Paleta: azul oscuro → verdes (bosque, esmeralda, hoja, lima).
+ * Única fuente de verdad para estilos de header, botones y acentos.
  */
 
-/** Color principal de marca (rojo Davivienda). Usado en header y acentos. */
-export const primary = '#0B79D9';
+export const palette = {
+  dark: '#012340',
+  forest: '#025939',
+  emerald: '#027333',
+  leaf: '#03A63C',
+  lime: '#04D939',
+} as const;
 
-/** Colores del header (navegación y MainHeader). */
+export const primary = palette.emerald;
+export const accent = palette.lime;
 export const header = {
-  background: primary,
+  background: palette.dark,
   tint: '#fff',
+} as const;
+
+export const theme = {
+  palette,
+  primary,
+  accent,
+  header,
 } as const;

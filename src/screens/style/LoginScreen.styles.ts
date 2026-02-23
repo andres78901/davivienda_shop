@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { primary } from '../../theme/colors';
 
 export const styles = StyleSheet.create({
   container: {
@@ -43,7 +44,7 @@ export const styles = StyleSheet.create({
     marginBottom: 10,
   },
   button: {
-    backgroundColor: '#0066cc',
+    backgroundColor: primary,
     paddingVertical: 14,
     borderRadius: 10,
     alignItems: 'center',
@@ -62,7 +63,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   linkText: {
-    color: '#0066cc',
+    color: primary,
     fontSize: 15,
   },
 });

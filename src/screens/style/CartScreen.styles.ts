@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { primary } from '../../theme/colors';
 
 export const styles = StyleSheet.create({
   container: {
@@ -50,7 +51,7 @@ export const styles = StyleSheet.create({
     width: 32,
     height: 32,
     borderRadius: 16,
-    backgroundColor: '#EF210B',
+    backgroundColor: primary,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -94,7 +95,7 @@ export const styles = StyleSheet.create({
   totalValue: {
     fontSize: 22,
     fontWeight: '800',
-    color: '#EF210B',
+    color: primary,
   },
   empty: {
     flex: 1,

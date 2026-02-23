@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { primary } from '../../theme/colors';
 
 export const styles = StyleSheet.create({
   card: {
@@ -29,6 +30,6 @@ export const styles = StyleSheet.create({
   price: {
     fontSize: 16,
     fontWeight: '700',
-    color: '#EF210B',
+    color: primary,
   },
 });

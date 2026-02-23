@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { primary } from '../../theme/colors';
 
 export const styles = StyleSheet.create({
   container: {
@@ -43,7 +44,7 @@ export const styles = StyleSheet.create({
   price: {
     fontSize: 24,
     fontWeight: '800',
-    color: '#0066cc',
+    color: primary,
   },
   rating: {
     fontSize: 16,
@@ -53,7 +54,7 @@ export const styles = StyleSheet.create({
     color: '#666',
   },
   addButton: {
-    backgroundColor: '#0066cc',
+    backgroundColor: primary,
     paddingVertical: 16,
     borderRadius: 12,
     alignItems: 'center',

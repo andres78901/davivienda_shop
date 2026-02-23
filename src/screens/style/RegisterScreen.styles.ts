@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { primary } from '../../theme/colors';
 
 export const styles = StyleSheet.create({
   container: {
@@ -68,5 +69,46 @@ export const styles = StyleSheet.create({
   linkText: {
     color: '#0066cc',
     fontSize: 15,
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 24,
+  },
+  modalContent: {
+    backgroundColor: '#fff',
+    borderRadius: 16,
+    padding: 24,
+    width: '100%',
+    maxWidth: 400,
+    maxHeight: '80%',
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: '#333',
+    marginBottom: 12,
+  },
+  modalScroll: {
+    maxHeight: 200,
+    marginBottom: 20,
+  },
+  modalMessage: {
+    fontSize: 15,
+    color: '#555',
+    lineHeight: 22,
+  },
+  modalButton: {
+    backgroundColor: primary,
+    paddingVertical: 14,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  modalButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '600',
   },
 });

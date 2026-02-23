@@ -7,7 +7,9 @@ import {
   ActivityIndicator,
   Alert,
   KeyboardAvoidingView,
+  Modal,
   Platform,
+  Pressable,
   ScrollView,
   Text,
   TextInput,
@@ -29,6 +31,8 @@ export function RegisterScreen({ navigation }: Props) {
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [successModalVisible, setSuccessModalVisible] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
 
   const handleRegister = async () => {
     const f = firstName.trim();
@@ -50,16 +54,10 @@ export function RegisterScreen({ navigation }: Props) {
         username: u,
         password: p,
       });
-      Alert.alert(
-        'Usuario creado',
-        `Se simuló la creación del usuario "${res.firstName} ${res.lastName}" (id: ${res.id}). La API DummyJSON no persiste usuarios; puedes iniciar sesión con usuarios existentes (ej: emilys / emilyspass).`,
-        [
-          {
-            text: 'Ir a login',
-            onPress: () => navigation.navigate('Login'),
-          },
-        ]
+      setSuccessMessage(
+        `Se simuló la creación del usuario "${res.firstName} ${res.lastName}" (id: ${res.id}). La API DummyJSON no persiste usuarios; puedes iniciar sesión con usuarios existentes (ej: emilys / emilyspass).`
       );
+      setSuccessModalVisible(true);
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Error al crear usuario';
       setError(message);
@@ -149,6 +147,34 @@ export function RegisterScreen({ navigation }: Props) {
           </TouchableOpacity>
         </View>
       </ScrollView>
+
+      <Modal
+        visible={successModalVisible}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setSuccessModalVisible(false)}
+      >
+        <Pressable
+          style={styles.modalOverlay}
+          onPress={() => setSuccessModalVisible(false)}
+        >
+          <Pressable style={styles.modalContent} onPress={(e) => e.stopPropagation()}>
+            <Text style={styles.modalTitle}>Usuario creado</Text>
+            <ScrollView style={styles.modalScroll} showsVerticalScrollIndicator={false}>
+              <Text style={styles.modalMessage}>{successMessage}</Text>
+            </ScrollView>
+            <TouchableOpacity
+              style={styles.modalButton}
+              onPress={() => {
+                setSuccessModalVisible(false);
+                navigation.navigate('Login');
+              }}
+            >
+              <Text style={styles.modalButtonText}>Ir a login</Text>
+            </TouchableOpacity>
+          </Pressable>
+        </Pressable>
+      </Modal>
     </KeyboardAvoidingView>
   );
 }

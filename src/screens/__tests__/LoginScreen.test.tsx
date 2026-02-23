@@ -13,7 +13,7 @@ import {
 } from '@testing-library/react-native';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
-import { authReducer, setError, setLoading } from '../../store/authSlice';
+import { authReducer, setError } from '../../store/authSlice';
 import { LoginScreen } from '../LoginScreen';
 
 jest.mock('../../services/authApi');
@@ -256,7 +256,7 @@ describe('LoginScreen', () => {
       });
     });
 
-    it('despacha setError(null) y setLoading(true) antes del try (líneas 40-42)', async () => {
+    it('despacha setError(null) y loginThunk al enviar credenciales válidas', async () => {
       const { login } = require('../../services/authApi');
       login.mockImplementation(
         () =>
@@ -270,12 +270,15 @@ describe('LoginScreen', () => {
 
       fireEvent.changeText(screen.getByPlaceholderText('Usuario'), 'u');
       fireEvent.changeText(screen.getByPlaceholderText('Contraseña'), 'p');
-      fireEvent.press(screen.getByText('Entrar'));
-
-      await waitFor(() => {
-        expect(dispatchSpy).toHaveBeenCalledWith(setError(null));
-        expect(dispatchSpy).toHaveBeenCalledWith(setLoading(true));
+      await act(async () => {
+        fireEvent.press(screen.getByText('Entrar'));
+        await new Promise<void>((resolve) => setTimeout(resolve, 60));
       });
+
+      expect(dispatchSpy).toHaveBeenCalledWith(setError(null));
+      expect(
+        dispatchSpy.mock.calls.some((c) => typeof c[0] === 'function')
+      ).toBe(true);
     });
   });
 

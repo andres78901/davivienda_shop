@@ -18,12 +18,15 @@ import {
 } from 'react-native';
 import { styles } from './style/RegisterScreen.styles';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { useDispatch } from 'react-redux';
+import type { AppDispatch } from '../store';
 import type { AuthStackParamList } from '../navigation/style/types';
-import { addUser } from '../services/authApi';
+import { registerThunk } from '../store/authThunks';
 
 type Props = NativeStackScreenProps<AuthStackParamList, 'Register'>;
 
 export function RegisterScreen({ navigation }: Props) {
+  const dispatch = useDispatch<AppDispatch>();
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -47,13 +50,9 @@ export function RegisterScreen({ navigation }: Props) {
     setError(null);
     setIsLoading(true);
     try {
-      const res = await addUser({
-        firstName: f,
-        lastName: l,
-        email: e,
-        username: u,
-        password: p,
-      });
+      const res = await dispatch(
+        registerThunk({ firstName: f, lastName: l, email: e, username: u, password: p })
+      ).unwrap();
       setSuccessMessage(
         `Se simuló la creación del usuario "${res.firstName} ${res.lastName}" (id: ${res.id}). La API DummyJSON no persiste usuarios; puedes iniciar sesión con usuarios existentes (ej: emilys / emilyspass).`
       );
@@ -63,7 +62,7 @@ export function RegisterScreen({ navigation }: Props) {
       setError(message);
       Alert.alert('Error', message);
     } finally {
-    setIsLoading(false);
+      setIsLoading(false);
     }
   };
 

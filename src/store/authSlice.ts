@@ -1,9 +1,11 @@
 /**
  * Slice Redux para autenticación: usuario, token y acciones login/logout.
+ * Los thunks loginThunk y registerThunk encapsulan las llamadas a authApi.
  */
 
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import type { User } from '../types/auth';
+import { loginThunk } from './authThunks';
 
 const AUTH_TOKEN_KEY = '@DaviviendaShop:accessToken';
 const AUTH_USER_KEY = '@DaviviendaShop:user';
@@ -49,6 +51,27 @@ export const authSlice = createSlice({
       state.isAuthenticated = false;
       state.error = null;
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(loginThunk.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(loginThunk.fulfilled, (state, action) => {
+        state.user = action.payload.user;
+        state.accessToken = action.payload.accessToken;
+        state.isAuthenticated = true;
+        state.isLoading = false;
+        state.error = null;
+      })
+      .addCase(loginThunk.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error =
+          (action.payload as string) ??
+          action.error.message ??
+          'Error al iniciar sesión';
+      });
   },
 });
 

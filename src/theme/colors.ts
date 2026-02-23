@@ -4,7 +4,7 @@
  */
 
 /** Color principal de marca (rojo Davivienda). Usado en header y acentos. */
-export const primary = '#CC0E00';
+export const primary = '#0B79D9';
 
 /** Colores del header (navegación y MainHeader). */
 export const header = {

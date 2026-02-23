@@ -1,11 +1,14 @@
 /**
- * Sincroniza el carrito de Zustand con la base de datos local por usuario.
+ * Sincroniza el carrito de Redux con la base de datos local por usuario.
  * Carga el carrito al cambiar de usuario y persiste en cada cambio.
  */
 
 import { useEffect } from 'react';
-import { useCartStore } from '../store/cartStore';
+import { useDispatch, useStore } from 'react-redux';
+import type { RootState } from '../store';
+import { setItems } from '../store/cartSlice';
 import { loadCartForUser, saveCartForUser } from '../services/cartStorage';
+import { selectCartItems } from '../store/cartSlice';
 
 const GUEST_ID = 'guest';
 
@@ -14,7 +17,8 @@ const GUEST_ID = 'guest';
  * Debe usarse dentro del flujo autenticado (userId numérico) o con 'guest'.
  */
 export function useCartSync(userId: number | undefined | null): void {
-  const setItems = useCartStore((s) => s.setItems);
+  const dispatch = useDispatch();
+  const store = useStore<RootState>();
   const currentUserId = userId ?? GUEST_ID;
 
   // Cargar carrito al montar o al cambiar de usuario
@@ -23,22 +27,22 @@ export function useCartSync(userId: number | undefined | null): void {
     (async () => {
       try {
         const items = await loadCartForUser(currentUserId);
-        if (!cancelled) setItems(items);
+        if (!cancelled) dispatch(setItems(items));
       } catch {
-        if (!cancelled) setItems([]);
+        if (!cancelled) dispatch(setItems([]));
       }
     })();
     return () => {
       cancelled = true;
     };
-  }, [currentUserId, setItems]);
+  }, [currentUserId, dispatch]);
 
   // Persistir al cambiar los ítems del carrito
   useEffect(() => {
-    const unsubscribe = useCartStore.subscribe(() => {
-      const items = useCartStore.getState().items;
+    const unsubscribe = store.subscribe(() => {
+      const items = selectCartItems(store.getState());
       saveCartForUser(currentUserId, items);
     });
     return unsubscribe;
-  }, [currentUserId]);
+  }, [currentUserId, store]);
 }

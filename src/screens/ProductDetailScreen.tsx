@@ -7,17 +7,18 @@ import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { styles } from './style/ProductDetailScreen.styles';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../navigation/style/types';
-import { useCartStore } from '../store/cartStore';
+import { useDispatch } from 'react-redux';
+import { addProduct } from '../store/cartSlice';
 import { showToast } from '../native/ToastModule';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'ProductDetail'>;
 
 export function ProductDetailScreen({ route }: Props) {
   const { product } = route.params;
-  const addProduct = useCartStore((s) => s.addProduct);
+  const dispatch = useDispatch();
 
   const handleAddToCart = () => {
-    addProduct(product, 1);
+    dispatch(addProduct({ product, quantity: 1 }));
     showToast('Agregado al carrito');
   };
 

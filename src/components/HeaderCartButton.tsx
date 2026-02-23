@@ -4,7 +4,8 @@
 
 import React from 'react';
 import { TouchableOpacity, Text, View } from 'react-native';
-import { useCartStore } from '../store/cartStore';
+import { useSelector } from 'react-redux';
+import { selectCartItemCount } from '../store/cartSlice';
 import { styles } from './style/HeaderCartButton.styles';
 
 type Props = {
@@ -12,7 +13,7 @@ type Props = {
 };
 
 export function HeaderCartButton({ onPress }: Props) {
-  const itemCount = useCartStore((s) => s.getItemCount());
+  const itemCount = useSelector(selectCartItemCount);
 
   return (
     <TouchableOpacity

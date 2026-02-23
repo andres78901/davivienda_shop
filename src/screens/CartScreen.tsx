@@ -8,14 +8,20 @@ import { styles } from './style/CartScreen.styles';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../navigation/style/types';
 import type { CartItem } from '../types/cart';
-import { useCartStore } from '../store/cartStore';
+import { useDispatch, useSelector } from 'react-redux';
+import type { RootState } from '../store';
+import {
+  incrementQuantity,
+  removeProduct,
+  decrementQuantity,
+  selectCartItems,
+  selectCartTotal,
+} from '../store/cartSlice';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Cart'>;
 
 function CartRow({ item }: { item: CartItem }) {
-  const incrementQuantity = useCartStore((s) => s.incrementQuantity);
-  const decrementQuantity = useCartStore((s) => s.decrementQuantity);
-  const removeProduct = useCartStore((s) => s.removeProduct);
+  const dispatch = useDispatch();
   const productId = item.product.id;
 
   return (
@@ -36,7 +42,7 @@ function CartRow({ item }: { item: CartItem }) {
         <View style={styles.actions}>
           <TouchableOpacity
             style={styles.quantityBtn}
-            onPress={() => decrementQuantity(productId)}
+            onPress={() => dispatch(decrementQuantity(productId))}
             accessibilityLabel="Disminuir cantidad"
           >
             <Text style={styles.quantityBtnText}>−</Text>
@@ -44,14 +50,14 @@ function CartRow({ item }: { item: CartItem }) {
           <Text style={styles.quantity}>{item.quantity}</Text>
           <TouchableOpacity
             style={styles.quantityBtn}
-            onPress={() => incrementQuantity(productId)}
+            onPress={() => dispatch(incrementQuantity(productId))}
             accessibilityLabel="Aumentar cantidad"
           >
             <Text style={styles.quantityBtnText}>+</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.removeBtn}
-            onPress={() => removeProduct(productId)}
+            onPress={() => dispatch(removeProduct(productId))}
             accessibilityLabel="Eliminar del carrito"
           >
             <Text style={styles.removeBtnText}>Eliminar</Text>
@@ -63,9 +69,8 @@ function CartRow({ item }: { item: CartItem }) {
 }
 
 export function CartScreen(_props: Props) {
-  const items = useCartStore((s) => s.items);
-  const getTotal = useCartStore((s) => s.getTotal);
-  const total = getTotal();
+  const items = useSelector(selectCartItems);
+  const total = useSelector(selectCartTotal);
 
   if (items.length === 0) {
     return (

@@ -34,3 +34,25 @@ export async function fetchProducts(): Promise<ProductsApiResponse> {
   const data = (await response.json()) as ProductsApiResponse;
   return data;
 }
+
+/**
+ * Busca productos por término (GET /products/search?q=...).
+ * @param q - Término de búsqueda (ej: "phone").
+ */
+export async function searchProducts(q: string): Promise<ProductsApiResponse> {
+  const query = encodeURIComponent(q.trim());
+  const response = await fetch(
+    `${BASE_URL}/products/search?q=${query}`
+  );
+
+  if (!response.ok) {
+    throw new ApiError(
+      `Error al buscar productos: ${response.statusText}`,
+      response.status,
+      await response.text()
+    );
+  }
+
+  const data = (await response.json()) as ProductsApiResponse;
+  return data;
+}

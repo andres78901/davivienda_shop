@@ -17,15 +17,14 @@ import { styles } from './style/LoginScreen.styles';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AuthStackParamList } from '../navigation/style/types';
-import { login } from '../services/authApi';
-import { setCredentials, setLoading, setError } from '../store/authSlice';
-import { setStoredAuth } from '../store/authStorage';
-import type { RootState } from '../store';
+import { loginThunk } from '../store/authThunks';
+import { setError } from '../store/authSlice';
+import type { AppDispatch, RootState } from '../store';
 
 type Props = NativeStackScreenProps<AuthStackParamList, 'Login'>;
 
 export function LoginScreen({ navigation }: Props) {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const { error, isLoading } = useSelector((s: RootState) => s.auth);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -38,18 +37,18 @@ export function LoginScreen({ navigation }: Props) {
       return;
     }
     dispatch(setError(null));
-    dispatch(setLoading(true));
     try {
-      const res = await login({ username: trimmedUser, password: trimmedPass });
-      const { accessToken, refreshToken: _ref, ...user } = res;
-      dispatch(setCredentials({ user, accessToken }));
-      await setStoredAuth(user, accessToken);
+      await dispatch(
+        loginThunk({ username: trimmedUser, password: trimmedPass })
+      ).unwrap();
     } catch (e) {
-      const message = e instanceof Error ? e.message : 'Error al iniciar sesión';
-      dispatch(setError(message));
+      const message =
+        typeof e === 'string'
+          ? e
+          : e instanceof Error
+            ? e.message
+            : 'Error al iniciar sesión';
       Alert.alert('Error', message);
-    } finally {
-      dispatch(setLoading(false));
     }
   };
 

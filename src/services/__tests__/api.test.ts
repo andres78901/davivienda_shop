@@ -1,8 +1,8 @@
 /**
- * Tests del servicio API (fetchProducts con mock de fetch).
+ * Tests del servicio API (fetchProducts, searchProducts con mock de fetch).
  */
 
-import { fetchProducts, ApiError } from '../api';
+import { fetchProducts, searchProducts, ApiError } from '../api';
 
 const mockProductsResponse = {
   products: [
@@ -56,6 +56,48 @@ describe('api', () => {
         expect(e).toBeInstanceOf(ApiError);
         expect((e as ApiError).message).toContain('Error al obtener productos');
         expect((e as ApiError).statusCode).toBe(404);
+      }
+    });
+  });
+
+  describe('searchProducts', () => {
+    it('llama a /products/search?q= y devuelve productos', async () => {
+      (globalThis.fetch as jest.Mock).mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve(mockProductsResponse),
+      });
+      const result = await searchProducts('phone');
+      expect(result).toEqual(mockProductsResponse);
+      expect(globalThis.fetch).toHaveBeenCalledWith(
+        'https://dummyjson.com/products/search?q=phone'
+      );
+    });
+
+    it('codifica el término de búsqueda en la URL', async () => {
+      (globalThis.fetch as jest.Mock).mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve(mockProductsResponse),
+      });
+      await searchProducts('a b');
+      expect(globalThis.fetch).toHaveBeenCalledWith(
+        'https://dummyjson.com/products/search?q=a%20b'
+      );
+    });
+
+    it('lanza ApiError cuando la respuesta no es ok', async () => {
+      (globalThis.fetch as jest.Mock).mockResolvedValueOnce({
+        ok: false,
+        statusText: 'Server Error',
+        status: 500,
+        text: () => Promise.resolve('Error'),
+      });
+      try {
+        await searchProducts('x');
+        expect(true).toBe(false);
+      } catch (e) {
+        expect(e).toBeInstanceOf(ApiError);
+        expect((e as ApiError).message).toContain('Error al buscar productos');
+        expect((e as ApiError).statusCode).toBe(500);
       }
     });
   });

@@ -8,12 +8,13 @@ import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { authReducer } from '../../store/authSlice';
 import { cartReducer } from '../../store/cartSlice';
+import { themeReducer } from '../../store/themeSlice';
 import { ProfileScreen } from '../ProfileScreen';
 import type { User } from '../../types/auth';
 
 function renderWithStore(user: User | null) {
   const store = configureStore({
-    reducer: { auth: authReducer, cart: cartReducer },
+    reducer: { auth: authReducer, cart: cartReducer, theme: themeReducer },
     preloadedState: {
       auth: {
         user,

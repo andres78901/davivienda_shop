@@ -20,11 +20,13 @@ import type { AuthStackParamList } from '../navigation/style/types';
 import { loginThunk } from '../store/authThunks';
 import { setError } from '../store/authSlice';
 import type { AppDispatch, RootState } from '../store';
+import { useThemeColors } from '../hooks/useThemeColors';
 
 type Props = NativeStackScreenProps<AuthStackParamList, 'Login'>;
 
 export function LoginScreen({ navigation }: Props) {
   const dispatch = useDispatch<AppDispatch>();
+  const { primary } = useThemeColors();
   const { error, isLoading } = useSelector((s: RootState) => s.auth);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -83,7 +85,7 @@ export function LoginScreen({ navigation }: Props) {
           editable={!isLoading}
         />
         <TouchableOpacity
-          style={[styles.button, isLoading && styles.buttonDisabled]}
+          style={[styles.button, { backgroundColor: primary }, isLoading && styles.buttonDisabled]}
           onPress={handleLogin}
           disabled={isLoading}
         >
@@ -98,7 +100,7 @@ export function LoginScreen({ navigation }: Props) {
           onPress={() => navigation.navigate('Register')}
           disabled={isLoading}
         >
-          <Text style={styles.linkText}>¿No tienes cuenta? Regístrate</Text>
+          <Text style={[styles.linkText, { color: primary }]}>¿No tienes cuenta? Regístrate</Text>
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>

@@ -7,16 +7,22 @@ import { ActivityIndicator, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { getStoredAuth } from '../store/authStorage';
 import { setCredentials } from '../store/authSlice';
+import { loadThemeThunk } from '../store/themeSlice';
 import type { RootState } from '../store';
+import { useThemeColors } from '../hooks/useThemeColors';
 import { AuthNavigator } from './AuthNavigator';
 import { AppNavigator } from './AppNavigator';
 import { styles } from './style/RootNavigator.styles';
-import { primary } from '../theme/colors';
 
 export function RootNavigator() {
   const dispatch = useDispatch();
   const isAuthenticated = useSelector((s: RootState) => s.auth.isAuthenticated);
   const [isRestoring, setIsRestoring] = useState(true);
+  const { primary, header: themeHeader } = useThemeColors();
+
+  useEffect(() => {
+    dispatch(loadThemeThunk());
+  }, [dispatch]);
 
   useEffect(() => {
     let cancelled = false;
@@ -39,7 +45,7 @@ export function RootNavigator() {
 
   if (isRestoring) {
     return (
-      <View style={styles.loading}>
+      <View style={[styles.loading, { backgroundColor: themeHeader.background }]}>
         <ActivityIndicator size="large" color={primary} />
       </View>
     );

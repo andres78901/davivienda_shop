@@ -12,12 +12,14 @@ import { configureStore } from '@reduxjs/toolkit';
 import { authReducer } from './authSlice';
 import { cartReducer } from './cartSlice';
 import { productsReducer } from './productsSlice';
+import { themeReducer } from './themeSlice';
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
     cart: cartReducer,
     products: productsReducer,
+    theme: themeReducer,
   },
 });
 
@@ -30,3 +32,4 @@ export { fetchProductsThunk, searchProductsThunk, selectProducts, selectProducts
 export { loadCartThunk, saveCartThunk } from './cartThunks';
 export { setItems, addProduct, removeProduct, incrementQuantity, decrementQuantity, selectCartItems, selectCartTotal, selectCartItemCount } from './cartSlice';
 export { setCredentials, setLoading, setError, logout } from './authSlice';
+export { setTheme, loadThemeThunk, selectThemeId } from './themeSlice';

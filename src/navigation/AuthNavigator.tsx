@@ -5,19 +5,20 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import type { AuthStackParamList } from './style/types';
-import { header } from '../theme/colors';
+import { useThemeColors } from '../hooks/useThemeColors';
 import { LoginScreen } from '../screens/LoginScreen.tsx';
 import { RegisterScreen } from '../screens/RegisterScreen.tsx';
 
 const Stack = createNativeStackNavigator<AuthStackParamList>();
 
 export function AuthNavigator() {
+  const { header: themeHeader } = useThemeColors();
   return (
     <Stack.Navigator
       initialRouteName="Login"
       screenOptions={{
-        headerStyle: { backgroundColor: header.background },
-        headerTintColor: header.tint,
+        headerStyle: { backgroundColor: themeHeader.background },
+        headerTintColor: themeHeader.tint,
         headerTitleStyle: { fontWeight: '700', fontSize: 18 },
       }}
     >

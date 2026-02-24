@@ -8,6 +8,7 @@ import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { authReducer } from '../../store/authSlice';
 import { cartReducer } from '../../store/cartSlice';
+import { themeReducer } from '../../store/themeSlice';
 import { ProductDetailScreen } from '../ProductDetailScreen';
 import type { Product } from '../../types/product';
 
@@ -31,7 +32,7 @@ const mockProduct: Product = {
 
 function renderScreen() {
   const store = configureStore({
-    reducer: { auth: authReducer, cart: cartReducer },
+    reducer: { auth: authReducer, cart: cartReducer, theme: themeReducer },
   });
   return {
     store,

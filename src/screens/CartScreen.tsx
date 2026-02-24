@@ -17,10 +17,11 @@ import {
   selectCartItems,
   selectCartTotal,
 } from '../store/cartSlice';
+import { useThemeColors } from '../hooks/useThemeColors';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Cart'>;
 
-function CartRow({ item }: { item: CartItem }) {
+function CartRow({ item, primary }: { item: CartItem; primary: string }) {
   const dispatch = useDispatch();
   const productId = item.product.id;
 
@@ -41,7 +42,7 @@ function CartRow({ item }: { item: CartItem }) {
         </Text>
         <View style={styles.actions}>
           <TouchableOpacity
-            style={styles.quantityBtn}
+            style={[styles.quantityBtn, { backgroundColor: primary }]}
             onPress={() => dispatch(decrementQuantity(productId))}
             accessibilityLabel="Disminuir cantidad"
           >
@@ -49,7 +50,7 @@ function CartRow({ item }: { item: CartItem }) {
           </TouchableOpacity>
           <Text style={styles.quantity}>{item.quantity}</Text>
           <TouchableOpacity
-            style={styles.quantityBtn}
+            style={[styles.quantityBtn, { backgroundColor: primary }]}
             onPress={() => dispatch(incrementQuantity(productId))}
             accessibilityLabel="Aumentar cantidad"
           >
@@ -69,6 +70,7 @@ function CartRow({ item }: { item: CartItem }) {
 }
 
 export function CartScreen(_props: Props) {
+  const { primary } = useThemeColors();
   const items = useSelector(selectCartItems);
   const total = useSelector(selectCartTotal);
 
@@ -85,12 +87,12 @@ export function CartScreen(_props: Props) {
       <FlatList
         data={items}
         keyExtractor={(item) => String(item.product.id)}
-        renderItem={({ item }) => <CartRow item={item} />}
+        renderItem={({ item }) => <CartRow item={item} primary={primary} />}
         contentContainerStyle={styles.listContent}
       />
       <View style={styles.footer}>
         <Text style={styles.totalLabel}>Total</Text>
-        <Text style={styles.totalValue}>${total.toFixed(2)}</Text>
+        <Text style={[styles.totalValue, { color: primary }]}>${total.toFixed(2)}</Text>
       </View>
     </View>
   );

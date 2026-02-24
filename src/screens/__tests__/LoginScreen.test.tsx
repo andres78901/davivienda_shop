@@ -14,6 +14,7 @@ import {
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { authReducer, setError } from '../../store/authSlice';
+import { themeReducer } from '../../store/themeSlice';
 import { LoginScreen } from '../LoginScreen';
 
 jest.mock('../../services/authApi');
@@ -37,7 +38,7 @@ function renderWithStore(initialAuth?: { error?: string | null; isLoading?: bool
     ? { auth: { ...getInitialAuthState(), ...initialAuth } }
     : undefined;
   const store = configureStore({
-    reducer: { auth: authReducer },
+    reducer: { auth: authReducer, theme: themeReducer },
     ...(preloadedState && { preloadedState }),
   });
   return {

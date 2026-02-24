@@ -20,6 +20,7 @@ import type { Product } from '../types/product';
 import { fetchProductsThunk, searchProductsThunk } from '../store/productsSlice';
 import { selectProducts, selectProductsLoading, selectProductsError } from '../store/productsSlice';
 import type { AppDispatch, RootState } from '../store';
+import { useThemeColors } from '../hooks/useThemeColors';
 import { ProductCard } from '../components/ProductCard';
 
 type HomeScreenNavigationProp = NativeStackNavigationProp<
@@ -35,6 +36,7 @@ const keyExtractor = (item: Product) => String(item.id);
 
 export function HomeScreen({ navigation }: Props) {
   const dispatch = useDispatch<AppDispatch>();
+  const { primary } = useThemeColors();
   const products = useSelector(selectProducts);
   const loading = useSelector(selectProductsLoading);
   const error = useSelector(selectProductsError);
@@ -91,7 +93,7 @@ export function HomeScreen({ navigation }: Props) {
     return (
       <View style={styles.center}>
         <Text style={styles.errorText}>{error}</Text>
-        <TouchableOpacity style={styles.retryButton} onPress={handleRetry}>
+        <TouchableOpacity style={[styles.retryButton, { backgroundColor: primary }]} onPress={handleRetry}>
           <Text style={styles.retryButtonText}>Reintentar</Text>
         </TouchableOpacity>
       </View>
@@ -125,7 +127,7 @@ export function HomeScreen({ navigation }: Props) {
           )}
         </View>
         <TouchableOpacity
-          style={styles.searchButton}
+          style={[styles.searchButton, { backgroundColor: primary }]}
           onPress={handleSearch}
           disabled={loading}
         >
@@ -145,7 +147,7 @@ export function HomeScreen({ navigation }: Props) {
               <Text style={styles.errorText}>
                 No hay resultados. Busca algo (ej: phone) o limpia para ver todos.
               </Text>
-              <TouchableOpacity style={styles.retryButton} onPress={handleClearSearch}>
+              <TouchableOpacity style={[styles.retryButton, { backgroundColor: primary }]} onPress={handleClearSearch}>
                 <Text style={styles.retryButtonText}>Ver todos</Text>
               </TouchableOpacity>
             </View>

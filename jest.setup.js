@@ -7,3 +7,9 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
   removeItem: jest.fn(() => Promise.resolve()),
   clear: jest.fn(() => Promise.resolve()),
 }));
+
+jest.mock('react-native-change-icon', () => ({
+  changeIcon: jest.fn(() => Promise.resolve()),
+  resetIcon: jest.fn(() => Promise.resolve()),
+  getIcon: jest.fn(() => Promise.resolve(null)),
+}));

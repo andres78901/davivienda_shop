@@ -6,6 +6,7 @@ import React from 'react';
 import { Image, ScrollView, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import type { RootState } from '../store';
+import { useThemeColors } from '../hooks/useThemeColors';
 import { styles } from './style/ProfileScreen.styles';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../navigation/style/types';
@@ -33,6 +34,7 @@ function FieldRow({
 }
 
 export function ProfileScreen(_props: Props) {
+  const { primary } = useThemeColors();
   const user = useSelector((s: RootState) => s.auth.user);
 
   if (!user) {
@@ -59,7 +61,7 @@ export function ProfileScreen(_props: Props) {
           />
         ) : null}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Datos personales</Text>
+          <Text style={[styles.sectionTitle, { color: primary }]}>Datos personales</Text>
           <FieldRow label="ID" value={user.id} />
           <FieldRow label="Usuario" value={user.username} />
           <FieldRow label="Correo" value={user.email} />

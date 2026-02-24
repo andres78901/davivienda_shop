@@ -16,6 +16,7 @@ export type RootStackParamList = {
   ProductDetail: { product: Product };
   Cart: undefined;
   Profile: undefined;
+  Theme: undefined;
 };
 
 declare global {

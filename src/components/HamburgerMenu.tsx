@@ -28,6 +28,11 @@ export function HamburgerMenu() {
     navigation.navigate('Profile');
   };
 
+  const goToTheme = () => {
+    closeMenu();
+    navigation.navigate('Theme');
+  };
+
   const handleLogout = async () => {
     closeMenu();
     await clearStoredAuth();
@@ -70,6 +75,14 @@ export function HamburgerMenu() {
               >
                 <Text style={styles.menuItemIcon}>👤</Text>
                 <Text style={styles.menuItemText}>Mis datos</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.menuItem}
+                onPress={goToTheme}
+                accessibilityLabel="Seleccionar tema"
+              >
+                <Text style={styles.menuItemIcon}>🎨</Text>
+                <Text style={styles.menuItemText}>Tema</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={[styles.menuItem, styles.menuItemLast]}

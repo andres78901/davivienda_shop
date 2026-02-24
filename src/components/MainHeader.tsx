@@ -8,6 +8,7 @@ import { View, Text } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useSelector } from 'react-redux';
 import type { RootState } from '../store';
+import { useThemeColors } from '../hooks/useThemeColors';
 import { HamburgerMenu } from './HamburgerMenu.tsx';
 import { HeaderCartButton } from './HeaderCartButton.tsx';
 import { styles } from './style/MainHeader.styles';
@@ -20,10 +21,16 @@ type MainHeaderProps = {
 export function MainHeader({ title, onCartPress }: MainHeaderProps) {
   const insets = useSafeAreaInsets();
   const user = useSelector((s: RootState) => s.auth.user);
+  const { header: themeHeader } = useThemeColors();
   const username = user?.username ?? '';
 
   return (
-    <View style={[styles.container, { paddingTop: Math.max(insets.top, 8) }]}>
+    <View
+      style={[
+        styles.container,
+        { paddingTop: Math.max(insets.top, 8), backgroundColor: themeHeader.background },
+      ]}
+    >
       <View style={styles.row}>
         <HamburgerMenu />
         <Text style={styles.title} numberOfLines={1}>

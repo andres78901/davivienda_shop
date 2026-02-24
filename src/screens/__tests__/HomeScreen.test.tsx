@@ -9,6 +9,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { authReducer } from '../../store/authSlice';
 import { cartReducer } from '../../store/cartSlice';
 import { productsReducer } from '../../store/productsSlice';
+import { themeReducer } from '../../store/themeSlice';
 import { HomeScreen } from '../HomeScreen';
 import type { Product } from '../../types/product';
 import { fetchProducts, searchProducts, ApiError } from '../../services/api';
@@ -38,7 +39,7 @@ const mockProducts: Product[] = [
 const mockNavigate = jest.fn();
 function renderScreen() {
   const store = configureStore({
-    reducer: { auth: authReducer, cart: cartReducer, products: productsReducer },
+    reducer: { auth: authReducer, cart: cartReducer, products: productsReducer, theme: themeReducer },
   });
   return render(
     <Provider store={store}>

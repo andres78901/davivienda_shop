@@ -22,11 +22,13 @@ import { useDispatch } from 'react-redux';
 import type { AppDispatch } from '../store';
 import type { AuthStackParamList } from '../navigation/style/types';
 import { registerThunk } from '../store/authThunks';
+import { useThemeColors } from '../hooks/useThemeColors';
 
 type Props = NativeStackScreenProps<AuthStackParamList, 'Register'>;
 
 export function RegisterScreen({ navigation }: Props) {
   const dispatch = useDispatch<AppDispatch>();
+  const { primary } = useThemeColors();
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -127,7 +129,7 @@ export function RegisterScreen({ navigation }: Props) {
           />
           {error ? <Text style={styles.errorText}>{error}</Text> : null}
           <TouchableOpacity
-            style={[styles.button, isLoading && styles.buttonDisabled]}
+            style={[styles.button, { backgroundColor: primary }, isLoading && styles.buttonDisabled]}
             onPress={handleRegister}
             disabled={isLoading}
           >
@@ -142,7 +144,7 @@ export function RegisterScreen({ navigation }: Props) {
             onPress={() => navigation.navigate('Login')}
             disabled={isLoading}
           >
-            <Text style={styles.linkText}>¿Ya tienes cuenta? Iniciar sesión</Text>
+            <Text style={[styles.linkText, { color: primary }]}>¿Ya tienes cuenta? Iniciar sesión</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -163,7 +165,7 @@ export function RegisterScreen({ navigation }: Props) {
               <Text style={styles.modalMessage}>{successMessage}</Text>
             </ScrollView>
             <TouchableOpacity
-              style={styles.modalButton}
+              style={[styles.modalButton, { backgroundColor: primary }]}
               onPress={() => {
                 setSuccessModalVisible(false);
                 navigation.navigate('Login');

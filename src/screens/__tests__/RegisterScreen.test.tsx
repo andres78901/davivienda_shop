@@ -8,6 +8,7 @@ import { Alert } from 'react-native';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { authReducer } from '../../store/authSlice';
+import { themeReducer } from '../../store/themeSlice';
 import { RegisterScreen } from '../RegisterScreen';
 
 jest.mock('../../services/authApi');
@@ -17,7 +18,7 @@ const mockNavigation = { navigate: mockNavigate } as never;
 const mockAlert = jest.spyOn(Alert, 'alert');
 
 function renderScreen() {
-  const store = configureStore({ reducer: { auth: authReducer } });
+  const store = configureStore({ reducer: { auth: authReducer, theme: themeReducer } });
   return render(
     <Provider store={store}>
       <RegisterScreen navigation={mockNavigation} route={{} as never} />

@@ -8,6 +8,7 @@ import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { authReducer } from '../../store/authSlice';
 import { cartReducer } from '../../store/cartSlice';
+import { themeReducer } from '../../store/themeSlice';
 import { MainHeader } from '../MainHeader';
 
 jest.mock('react-native-safe-area-context', () => ({
@@ -19,7 +20,7 @@ jest.mock('@react-navigation/native', () => ({
 
 function renderWithStore(authUser?: { id: number; username: string } | null) {
   const store = configureStore({
-    reducer: { auth: authReducer, cart: cartReducer },
+    reducer: { auth: authReducer, cart: cartReducer, theme: themeReducer },
     preloadedState: authUser
       ? { auth: { user: authUser, accessToken: 't', isAuthenticated: true, isLoading: false, error: null }, cart: { items: [] } }
       : undefined,

@@ -5,6 +5,7 @@
 import React from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 import type { Product } from '../types/product';
+import { useThemeColors } from '../hooks/useThemeColors';
 import { styles } from './style/ProductCard.styles';
 
 type Props = {
@@ -13,6 +14,7 @@ type Props = {
 };
 
 export function ProductCard({ product, onPress }: Props) {
+  const { primary } = useThemeColors();
   return (
     <TouchableOpacity
       style={styles.card}
@@ -30,7 +32,7 @@ export function ProductCard({ product, onPress }: Props) {
         <Text style={styles.title} numberOfLines={2}>
           {product.title}
         </Text>
-        <Text style={styles.price}>${product.price.toFixed(2)}</Text>
+        <Text style={[styles.price, { color: primary }]}>${product.price.toFixed(2)}</Text>
       </View>
     </TouchableOpacity>
   );

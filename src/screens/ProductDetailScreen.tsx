@@ -10,12 +10,14 @@ import type { RootStackParamList } from '../navigation/style/types';
 import { useDispatch } from 'react-redux';
 import { addProduct } from '../store/cartSlice';
 import { showToast } from '../native/ToastModule';
+import { useThemeColors } from '../hooks/useThemeColors';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'ProductDetail'>;
 
 export function ProductDetailScreen({ route }: Props) {
   const { product } = route.params;
   const dispatch = useDispatch();
+  const { primary } = useThemeColors();
 
   const handleAddToCart = () => {
     dispatch(addProduct({ product, quantity: 1 }));
@@ -38,12 +40,12 @@ export function ProductDetailScreen({ route }: Props) {
         <Text style={styles.title}>{product.title}</Text>
         <Text style={styles.description}>{product.description}</Text>
         <View style={styles.meta}>
-          <Text style={styles.price}>${product.price.toFixed(2)}</Text>
+          <Text style={[styles.price, { color: primary }]}>${product.price.toFixed(2)}</Text>
           <Text style={styles.rating}>⭐ {product.rating}</Text>
           <Text style={styles.stock}>Stock: {product.stock}</Text>
         </View>
         <TouchableOpacity
-          style={styles.addButton}
+          style={[styles.addButton, { backgroundColor: primary }]}
           onPress={handleAddToCart}
           accessibilityRole="button"
           accessibilityLabel="Agregar al carrito"

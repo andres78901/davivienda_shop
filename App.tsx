@@ -9,12 +9,14 @@ import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { store } from './src/store';
 import { RootNavigator } from './src/navigation/RootNavigator';
+import { AppIconThemeSync } from './src/components/AppIconThemeSync';
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
 
   return (
     <Provider store={store}>
+      <AppIconThemeSync />
       <SafeAreaProvider>
         <StatusBar barStyle={isDarkMode ? 'light-content' : 'light-content'} />
         <NavigationContainer>

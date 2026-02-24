@@ -46,7 +46,6 @@ npm run ios
 -   TypeScript
 -   React Navigation
 -   Redux Toolkit + AsyncStorage
--   Zustand
 -   Jest
 
 ------------------------------------------------------------------------

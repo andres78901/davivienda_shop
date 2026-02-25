@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getStoredAuth } from '../store/authStorage';
 import { setCredentials } from '../store/authSlice';
 import { loadThemeThunk } from '../store/themeSlice';
+import { loadLocaleThunk } from '../store/localeSlice';
 import type { RootState } from '../store';
 import { useThemeColors } from '../hooks/useThemeColors';
 import { AuthNavigator } from './AuthNavigator';
@@ -22,6 +23,7 @@ export function RootNavigator() {
 
   useEffect(() => {
     dispatch(loadThemeThunk());
+    dispatch(loadLocaleThunk());
   }, [dispatch]);
 
   useEffect(() => {

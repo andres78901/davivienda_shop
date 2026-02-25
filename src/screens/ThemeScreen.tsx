@@ -8,29 +8,29 @@ import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { setTheme, selectThemeId } from '../store/themeSlice';
 import { THEME_IDS, getThemeColors } from '../theme/colors';
-import { AppIcon } from '../components/AppIcon';
+import { useTranslation } from '../hooks/useTranslation';
+import { getThemeLabelKey } from '../i18n/translations';
 import { styles } from './style/ThemeScreen.styles';
 
 export function ThemeScreen() {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const currentId = useSelector(selectThemeId);
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
-      <View style={styles.iconRow}>
-        <AppIcon size={56} />
-      </View>
-      <Text style={styles.title}>Tema de visualización</Text>
-      <Text style={styles.subtitle}>Selecciona una paleta de colores</Text>
+      <Text style={styles.title}>{t('themeTitle')}</Text>
+      <Text style={styles.subtitle}>{t('themeSubtitle')}</Text>
       {THEME_IDS.map((themeId) => {
         const theme = getThemeColors(themeId);
         const isSelected = currentId === themeId;
+        const themeLabel = t(getThemeLabelKey(themeId));
         return (
           <TouchableOpacity
             key={themeId}
             style={[styles.card, isSelected && styles.cardSelected]}
             onPress={() => dispatch(setTheme(themeId))}
-            accessibilityLabel={`Tema ${theme.label}`}
+            accessibilityLabel={`${t('themeLabel')} ${themeLabel}`}
             accessibilityRole="button"
             accessibilityState={{ selected: isSelected }}
           >
@@ -43,7 +43,7 @@ export function ThemeScreen() {
               ))}
             </View>
             <Text style={styles.label}>
-              {theme.label}
+              {themeLabel}
               {isSelected ? ' ✓' : ''}
             </Text>
           </TouchableOpacity>

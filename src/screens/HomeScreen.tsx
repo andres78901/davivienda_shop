@@ -21,6 +21,7 @@ import { fetchProductsThunk, searchProductsThunk } from '../store/productsSlice'
 import { selectProducts, selectProductsLoading, selectProductsError } from '../store/productsSlice';
 import type { AppDispatch, RootState } from '../store';
 import { useThemeColors } from '../hooks/useThemeColors';
+import { useTranslation } from '../hooks/useTranslation';
 import { ProductCard } from '../components/ProductCard';
 
 type HomeScreenNavigationProp = NativeStackNavigationProp<
@@ -37,6 +38,7 @@ const keyExtractor = (item: Product) => String(item.id);
 export function HomeScreen({ navigation }: Props) {
   const dispatch = useDispatch<AppDispatch>();
   const { primary } = useThemeColors();
+  const { t } = useTranslation();
   const products = useSelector(selectProducts);
   const loading = useSelector(selectProductsLoading);
   const error = useSelector(selectProductsError);
@@ -84,7 +86,7 @@ export function HomeScreen({ navigation }: Props) {
     return (
       <View style={styles.center}>
         <ActivityIndicator size="large" />
-        <Text style={styles.loadingText}>Cargando productos...</Text>
+        <Text style={styles.loadingText}>{t('loadingProducts')}</Text>
       </View>
     );
   }
@@ -94,7 +96,7 @@ export function HomeScreen({ navigation }: Props) {
       <View style={styles.center}>
         <Text style={styles.errorText}>{error}</Text>
         <TouchableOpacity style={[styles.retryButton, { backgroundColor: primary }]} onPress={handleRetry}>
-          <Text style={styles.retryButtonText}>Reintentar</Text>
+          <Text style={styles.retryButtonText}>{t('retry')}</Text>
         </TouchableOpacity>
       </View>
     );
@@ -106,20 +108,20 @@ export function HomeScreen({ navigation }: Props) {
         <View style={styles.searchInputWrapper}>
           <TextInput
             style={styles.searchInput}
-            placeholder="Buscar productos (ej: phone)"
+            placeholder={t('searchPlaceholder')}
             placeholderTextColor="#999"
             value={searchQuery}
             onChangeText={setSearchQuery}
             onSubmitEditing={handleSearch}
             returnKeyType="search"
             editable={!loading}
-            accessibilityLabel="Buscar productos"
+            accessibilityLabel={t('searchProducts')}
           />
           {searchQuery.length > 0 && (
             <TouchableOpacity
               style={styles.clearButton}
               onPress={handleClearInput}
-              accessibilityLabel="Limpiar búsqueda"
+              accessibilityLabel={t('clearSearch')}
               accessibilityRole="button"
             >
               <Text style={styles.clearButtonText}>×</Text>
@@ -131,7 +133,7 @@ export function HomeScreen({ navigation }: Props) {
           onPress={handleSearch}
           disabled={loading}
         >
-          <Text style={styles.searchButtonText}>Buscar</Text>
+          <Text style={styles.searchButtonText}>{t('search')}</Text>
         </TouchableOpacity>
       </View>
       <FlatList
@@ -145,10 +147,10 @@ export function HomeScreen({ navigation }: Props) {
           !loading && products.length === 0 ? (
             <View style={styles.center}>
               <Text style={styles.errorText}>
-                No hay resultados. Busca algo (ej: phone) o limpia para ver todos.
+                {t('noResults')}
               </Text>
               <TouchableOpacity style={[styles.retryButton, { backgroundColor: primary }]} onPress={handleClearSearch}>
-                <Text style={styles.retryButtonText}>Ver todos</Text>
+                <Text style={styles.retryButtonText}>{t('viewAll')}</Text>
               </TouchableOpacity>
             </View>
           ) : null

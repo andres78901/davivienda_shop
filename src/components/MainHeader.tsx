@@ -9,6 +9,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useSelector } from 'react-redux';
 import type { RootState } from '../store';
 import { useThemeColors } from '../hooks/useThemeColors';
+import { useTranslation } from '../hooks/useTranslation';
 import { HamburgerMenu } from './HamburgerMenu.tsx';
 import { HeaderCartButton } from './HeaderCartButton.tsx';
 import { styles } from './style/MainHeader.styles';
@@ -22,6 +23,7 @@ export function MainHeader({ title, onCartPress }: MainHeaderProps) {
   const insets = useSafeAreaInsets();
   const user = useSelector((s: RootState) => s.auth.user);
   const { header: themeHeader } = useThemeColors();
+  const { t } = useTranslation();
   const username = user?.username ?? '';
 
   return (
@@ -42,7 +44,7 @@ export function MainHeader({ title, onCartPress }: MainHeaderProps) {
         <>
           <View style={styles.lineBreak} />
           <Text style={styles.userLine} numberOfLines={1}>
-            Conectado como: <Text style={styles.textUserAuth}>{username}</Text>
+            {t('connectedAs')}: <Text style={styles.textUserAuth}>{username}</Text>
           </Text>
         </>
       ) : null}

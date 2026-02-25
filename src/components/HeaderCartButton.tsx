@@ -6,6 +6,7 @@ import React from 'react';
 import { TouchableOpacity, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { selectCartItemCount } from '../store/cartSlice';
+import { useTranslation } from '../hooks/useTranslation';
 import { styles } from './style/HeaderCartButton.styles';
 
 type Props = {
@@ -14,13 +15,14 @@ type Props = {
 
 export function HeaderCartButton({ onPress }: Props) {
   const itemCount = useSelector(selectCartItemCount);
+  const { t } = useTranslation();
 
   return (
     <TouchableOpacity
       onPress={onPress}
       style={styles.cartButton}
       accessibilityRole="button"
-      accessibilityLabel="Ir al carrito"
+      accessibilityLabel={t('goToCart')}
     >
       <Text style={styles.cartIcon}>🛒</Text>
       {itemCount > 0 && (

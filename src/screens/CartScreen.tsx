@@ -8,8 +8,8 @@ import { styles } from './style/CartScreen.styles';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../navigation/style/types';
 import type { CartItem } from '../types/cart';
+import type { TranslationKey } from '../i18n/translations';
 import { useDispatch, useSelector } from 'react-redux';
-import type { RootState } from '../store';
 import {
   incrementQuantity,
   removeProduct,
@@ -18,10 +18,19 @@ import {
   selectCartTotal,
 } from '../store/cartSlice';
 import { useThemeColors } from '../hooks/useThemeColors';
+import { useTranslation } from '../hooks/useTranslation';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Cart'>;
 
-function CartRow({ item, primary }: { item: CartItem; primary: string }) {
+function CartRow({
+  item,
+  primary,
+  t,
+}: {
+  item: CartItem;
+  primary: string;
+  t: (key: TranslationKey) => string;
+}) {
   const dispatch = useDispatch();
   const productId = item.product.id;
 
@@ -44,7 +53,7 @@ function CartRow({ item, primary }: { item: CartItem; primary: string }) {
           <TouchableOpacity
             style={[styles.quantityBtn, { backgroundColor: primary }]}
             onPress={() => dispatch(decrementQuantity(productId))}
-            accessibilityLabel="Disminuir cantidad"
+            accessibilityLabel={t('decreaseQty')}
           >
             <Text style={styles.quantityBtnText}>−</Text>
           </TouchableOpacity>
@@ -52,16 +61,16 @@ function CartRow({ item, primary }: { item: CartItem; primary: string }) {
           <TouchableOpacity
             style={[styles.quantityBtn, { backgroundColor: primary }]}
             onPress={() => dispatch(incrementQuantity(productId))}
-            accessibilityLabel="Aumentar cantidad"
+            accessibilityLabel={t('increaseQty')}
           >
             <Text style={styles.quantityBtnText}>+</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.removeBtn}
             onPress={() => dispatch(removeProduct(productId))}
-            accessibilityLabel="Eliminar del carrito"
+            accessibilityLabel={t('removeFromCart')}
           >
-            <Text style={styles.removeBtnText}>Eliminar</Text>
+            <Text style={styles.removeBtnText}>{t('remove')}</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -71,13 +80,14 @@ function CartRow({ item, primary }: { item: CartItem; primary: string }) {
 
 export function CartScreen(_props: Props) {
   const { primary } = useThemeColors();
+  const { t } = useTranslation();
   const items = useSelector(selectCartItems);
   const total = useSelector(selectCartTotal);
 
   if (items.length === 0) {
     return (
       <View style={styles.empty}>
-        <Text style={styles.emptyText}>Tu carrito está vacío</Text>
+        <Text style={styles.emptyText}>{t('cartEmpty')}</Text>
       </View>
     );
   }
@@ -87,11 +97,11 @@ export function CartScreen(_props: Props) {
       <FlatList
         data={items}
         keyExtractor={(item) => String(item.product.id)}
-        renderItem={({ item }) => <CartRow item={item} primary={primary} />}
+        renderItem={({ item }) => <CartRow item={item} primary={primary} t={t} />}
         contentContainerStyle={styles.listContent}
       />
       <View style={styles.footer}>
-        <Text style={styles.totalLabel}>Total</Text>
+        <Text style={styles.totalLabel}>{t('total')}</Text>
         <Text style={[styles.totalValue, { color: primary }]}>${total.toFixed(2)}</Text>
       </View>
     </View>

@@ -9,10 +9,6 @@ export const styles = StyleSheet.create({
     padding: 16,
     paddingBottom: 32,
   },
-  iconRow: {
-    alignItems: 'center',
-    marginBottom: 16,
-  },
   title: {
     fontSize: 22,
     fontWeight: '700',

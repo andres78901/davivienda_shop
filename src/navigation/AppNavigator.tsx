@@ -4,27 +4,28 @@
  * Sincroniza el carrito con la base de datos local por usuario.
  */
 
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import type { RootState } from '../store';
 import type { RootStackParamList } from './style/types';
 import { useThemeColors } from '../hooks/useThemeColors';
-import { loadThemeThunk } from '../store/themeSlice';
+import { useTranslation } from '../hooks/useTranslation';
 import { useCartSync } from '../hooks/useCartSync';
 import { HomeScreen } from '../screens/HomeScreen';
 import { ProductDetailScreen } from '../screens/ProductDetailScreen';
 import { CartScreen } from '../screens/CartScreen';
 import { ProfileScreen } from '../screens/ProfileScreen';
 import { ThemeScreen } from '../screens/ThemeScreen';
+import { ChangeLanguageScreen } from '../screens/ChangeLanguageScreen';
 import { MainHeader } from '../components/MainHeader';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export function AppNavigator() {
-  const dispatch = useDispatch();
   const userId = useSelector((s: RootState) => s.auth.user?.id);
   const { header: themeHeader } = useThemeColors();
+  const { t } = useTranslation();
   useCartSync(userId);
 
   return (
@@ -42,7 +43,7 @@ export function AppNavigator() {
         options={{
           header: ({ navigation }) => (
             <MainHeader
-              title="Productos"
+              title={t('products')}
               onCartPress={() => navigation.navigate('Cart')}
             />
           ),
@@ -51,22 +52,27 @@ export function AppNavigator() {
       <Stack.Screen
         name="ProductDetail"
         component={ProductDetailScreen}
-        options={{ title: 'Detalle' }}
+        options={{ title: t('detail') }}
       />
       <Stack.Screen
         name="Cart"
         component={CartScreen}
-        options={{ title: 'Carrito' }}
+        options={{ title: t('cartTitle') }}
       />
       <Stack.Screen
         name="Profile"
         component={ProfileScreen}
-        options={{ title: 'Mis datos' }}
+        options={{ title: t('myData') }}
       />
       <Stack.Screen
         name="Theme"
         component={ThemeScreen}
-        options={{ title: 'Tema' }}
+        options={{ title: t('theme') }}
+      />
+      <Stack.Screen
+        name="changeLanguage"
+        component={ChangeLanguageScreen}
+        options={{ title: t('changeLanguageTitle') }}
       />
     </Stack.Navigator>
   );

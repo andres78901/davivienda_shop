@@ -7,6 +7,7 @@ import { Image, ScrollView, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import type { RootState } from '../store';
 import { useThemeColors } from '../hooks/useThemeColors';
+import { useTranslation } from '../hooks/useTranslation';
 import { styles } from './style/ProfileScreen.styles';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../navigation/style/types';
@@ -35,13 +36,14 @@ function FieldRow({
 
 export function ProfileScreen(_props: Props) {
   const { primary } = useThemeColors();
+  const { t } = useTranslation();
   const user = useSelector((s: RootState) => s.auth.user);
 
   if (!user) {
     return (
       <View style={styles.container}>
         <View style={styles.scrollContent}>
-          <Text style={styles.empty}>No hay datos de usuario disponibles.</Text>
+          <Text style={styles.empty}>{t('noUserData')}</Text>
         </View>
       </View>
     );
@@ -61,13 +63,13 @@ export function ProfileScreen(_props: Props) {
           />
         ) : null}
         <View style={styles.section}>
-          <Text style={[styles.sectionTitle, { color: primary }]}>Datos personales</Text>
-          <FieldRow label="ID" value={user.id} />
-          <FieldRow label="Usuario" value={user.username} />
-          <FieldRow label="Correo" value={user.email} />
-          <FieldRow label="Nombre" value={user.firstName} />
-          <FieldRow label="Apellido" value={user.lastName} />
-          <FieldRow label="Género" value={user.gender} isLast />
+          <Text style={[styles.sectionTitle, { color: primary }]}>{t('personalData')}</Text>
+          <FieldRow label={t('fieldId')} value={user.id} />
+          <FieldRow label={t('fieldUsername')} value={user.username} />
+          <FieldRow label={t('fieldEmail')} value={user.email} />
+          <FieldRow label={t('fieldFirstName')} value={user.firstName} />
+          <FieldRow label={t('fieldLastName')} value={user.lastName} />
+          <FieldRow label={t('fieldGender')} value={user.gender} isLast />
         </View>
       </ScrollView>
     </View>

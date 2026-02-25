@@ -11,6 +11,7 @@ import { useDispatch } from 'react-redux';
 import { addProduct } from '../store/cartSlice';
 import { showToast } from '../native/ToastModule';
 import { useThemeColors } from '../hooks/useThemeColors';
+import { useTranslation } from '../hooks/useTranslation';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'ProductDetail'>;
 
@@ -18,10 +19,11 @@ export function ProductDetailScreen({ route }: Props) {
   const { product } = route.params;
   const dispatch = useDispatch();
   const { primary } = useThemeColors();
+  const { t } = useTranslation();
 
   const handleAddToCart = () => {
     dispatch(addProduct({ product, quantity: 1 }));
-    showToast('Agregado al carrito');
+    showToast(t('addedToCart'));
   };
 
   return (
@@ -42,15 +44,15 @@ export function ProductDetailScreen({ route }: Props) {
         <View style={styles.meta}>
           <Text style={[styles.price, { color: primary }]}>${product.price.toFixed(2)}</Text>
           <Text style={styles.rating}>⭐ {product.rating}</Text>
-          <Text style={styles.stock}>Stock: {product.stock}</Text>
+          <Text style={styles.stock}>{t('stock')}: {product.stock}</Text>
         </View>
         <TouchableOpacity
           style={[styles.addButton, { backgroundColor: primary }]}
           onPress={handleAddToCart}
           accessibilityRole="button"
-          accessibilityLabel="Agregar al carrito"
+          accessibilityLabel={t('addToCart')}
         >
-          <Text style={styles.addButtonText}>Agregar al carrito</Text>
+          <Text style={styles.addButtonText}>{t('addToCart')}</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>

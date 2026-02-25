@@ -62,15 +62,15 @@ const palette2Theme: ThemeColors = {
 };
 
 const palette3Theme: ThemeColors = {
-  primary: '#1BA0F2',
-  accent: '#F2A516',
+  primary: '#F2A516',
+  accent: '#38D0F2',
   header: { background: '#1B8EF2', tint: '#fff' },
   swatches: ['#1B8EF2', '#1BA0F2', '#38BDF2', '#38D0F2', '#F2A516'],
   label: 'Paleta 3',
 };
 
 const palette4Theme: ThemeColors = {
-  primary: '#B78DF2',
+  primary: '#BBDDF2',
   accent: '#6DBFF2',
   header: { background: '#B78DF2', tint: '#fff' },
   swatches: ['#EFD5F2', '#D2A2F2', '#B78DF2', '#6DBFF2', '#BBDDF2'],
